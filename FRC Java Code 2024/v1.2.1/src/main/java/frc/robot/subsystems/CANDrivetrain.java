@@ -23,14 +23,19 @@ public class CANDrivetrain extends SubsystemBase {
   different method calls. */
   DifferentialDrive m_drivetrain;
 
+  CANSparkMax leftRear;
+  CANSparkMax rightRear;
+
   /*Constructor. This method is called when an instance of the class is created. This should generally be used to set up
    * member variables and perform any configuration or set up necessary on hardware.
    */
   public CANDrivetrain() {
     CANSparkMax leftFront = new CANSparkMax(kLeftFrontID, MotorType.kBrushed);
-    CANSparkMax leftRear = new CANSparkMax(kLeftRearID, MotorType.kBrushed);
+    //CANSparkMax leftRear = new CANSparkMax(kLeftRearID, MotorType.kBrushed);
+    leftRear = new CANSparkMax(kLeftRearID, MotorType.kBrushed);
     CANSparkMax rightFront = new CANSparkMax(kRightFrontID, MotorType.kBrushed);
-    CANSparkMax rightRear = new CANSparkMax(kRightRearID, MotorType.kBrushed);
+    //CANSparkMax rightRear = new CANSparkMax(kRightRearID, MotorType.kBrushed);
+    rightRear = new CANSparkMax(kRightRearID, MotorType.kBrushed);
 
     /*Sets current limits for the drivetrain motors. This helps reduce the likelihood of wheel spin, reduces motor heating
      *at stall (Drivetrain pushing against something) and helps maintain battery voltage under heavy demand */
