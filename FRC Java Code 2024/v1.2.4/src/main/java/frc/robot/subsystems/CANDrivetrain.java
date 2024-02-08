@@ -69,8 +69,19 @@ public class CANDrivetrain extends SubsystemBase {
     //Potential curve formulas?
     // output = a1*X^3 + (1-a1)*X
     // output = min(max/min)^joystick value
-    m_drivetrain.tankDrive(Math.pow(speedL, 3), Math.pow(speedR, 3));
+    //m_drivetrain.tankDrive(Math.pow(speedL, 3), Math.pow(speedR, 3));
+    //m_drivetrain.tankDrive(Math.pow(0.3*(1/0.3), speedL), Math.pow(0.3*(1/0.3), speedR));
+    m_drivetrain.tankDrive(speedL, speedR);
+  
   }
+
+  /*public void turnClockwise(double speed) {
+    // Assuming positive speed makes the robot move forward
+    // To turn clockwise, the left motor should move forward and the right motor should move backward
+    leftMotor.set(speed);
+    rightMotor.set(-speed);
+  }
+  */
 
   @Override
   public void periodic() {

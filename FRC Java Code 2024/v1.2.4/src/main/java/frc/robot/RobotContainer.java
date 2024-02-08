@@ -25,6 +25,7 @@ import frc.robot.subsystems.CANLauncher;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  //private static final double turnSpeed = 0.5; // Adjust this value as needed
   // The robot's subsystems are defined here.
   //private final PWMDrivetrain m_drivetrain = new PWMDrivetrain();
   private final CANDrivetrain m_drivetrain = new CANDrivetrain();
@@ -41,6 +42,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+    
     configureBindings();
   }
 
@@ -49,7 +51,7 @@ public class RobotContainer {
    * named factory methods in the Command* classes in edu.wpi.first.wpilibj2.command.button (shown
    * below) or via the Trigger constructor for arbitary conditions
    */
-  private void configureBindings() {
+  public void configureBindings() {
     // Set the default command for the drivetrain to drive using the joysticks
     m_drivetrain.setDefaultCommand(
         new RunCommand(
@@ -57,7 +59,10 @@ public class RobotContainer {
                 //m_drivetrain.arcadeDrive(
                     //-m_driverController.getLeftY(), -m_driverController.getRightX()), m_drivetrain));
                 m_drivetrain.tankDrive(
-                    -m_driverController.getLeftY(), -m_driverController.getRightY()), m_drivetrain));
+                    -Math.pow((m_driverController.getLeftY()), 3)*(m_driverController.getHID().getRightBumper()?1:.5), 
+                    -Math.pow((m_driverController.getRightY()),3 )*(m_driverController.getHID().getRightBumper()?1:.5)), 
+                m_drivetrain
+                ));
 
     /*Create an inline sequence to run when the operator presses and holds the A (green) button. Run the PrepareLaunch
      * command for 1 seconds and then run the LaunchNote command */
@@ -72,6 +77,9 @@ public class RobotContainer {
     // Set up a binding to run the intake command while the operator is pressing and holding the
     // left Bumper
     m_operatorController.leftBumper().whileTrue(m_launcher.getIntakeCommand());
+
+    
+    
   }
 
   /**
