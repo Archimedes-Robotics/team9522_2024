@@ -23,6 +23,8 @@ import edu.wpi.first.cameraserver.CameraServer;
  * project.
  */
 public class Robot extends TimedRobot {
+   // Create a new gyro object
+    ADXRS450_Gyro gyro = new ADXRS450_Gyro();
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -41,8 +43,6 @@ public class Robot extends TimedRobot {
     // Get the alliance color
     @SuppressWarnings("unused")
     Optional<Alliance> ally = DriverStation.getAlliance();
-    // Create a new gyro object
-    ADXRS450_Gyro gyro = new ADXRS450_Gyro();
     // Calibrate and get the heading from the gyro
     gyro.calibrate();
     double heading = gyro.getAngle();
@@ -64,6 +64,10 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    //create a new gyro object to constantly update the heading
+    double heading = gyro.getAngle();
+    // Output the heading to the Dashboard
+    SmartDashboard.putNumber("Gyro", heading);
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
