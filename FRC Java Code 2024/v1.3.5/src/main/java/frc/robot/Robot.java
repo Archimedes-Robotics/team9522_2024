@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -45,9 +45,6 @@ public class Robot extends TimedRobot {
     Optional<Alliance> ally = DriverStation.getAlliance();
     // Calibrate and get the heading from the gyro
     gyro.calibrate();
-    double heading = gyro.getAngle();
-    // Output the heading to the SmartDashboard
-    SmartDashboard.putNumber("Gyro", heading);
   }
 
   /**
@@ -65,9 +62,10 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     //create a new gyro object to constantly update the heading
-    double heading = gyro.getAngle();
+    //double heading = gyro.getAngle();
     // Output the heading to the Dashboard
-    SmartDashboard.putNumber("Gyro", heading);
+    //SmartDashboard.putNumber("Gyro", heading);
+    //SmartDashboard.putNumberArray("RobotDrive Motors", {drivetrain.getLeftFront(), drivetrain.getRightFront(), drivetrain.getLeftBack(), drivetrain.getRightBack()});
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

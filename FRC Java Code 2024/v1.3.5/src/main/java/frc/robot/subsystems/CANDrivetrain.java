@@ -84,8 +84,8 @@ public class CANDrivetrain extends SubsystemBase {
 
 //Turns robot clockwise
  public void turnClockwise() {
-    double speedL = 0.75; //Adjust as we need
-    double speedR = -0.75;  //Adjust as we need
+    double speedL = 0.5; //Adjust as we need
+    double speedR = -0.5;  //Adjust as we need
     m_drivetrain.tankDrive(speedL, speedR);
 }
   
