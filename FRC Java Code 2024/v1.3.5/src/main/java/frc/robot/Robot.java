@@ -5,8 +5,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,8 +27,6 @@ import edu.wpi.first.cameraserver.CameraServer;
  * project.
  */
 public class Robot extends TimedRobot {
-   // Create a new gyro object
-    ADXRS450_Gyro gyro = new ADXRS450_Gyro();
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -32,7 +34,10 @@ public class Robot extends TimedRobot {
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
-   */
+   */ 
+    public static PneumaticHub ph = new PneumaticHub();
+    public static Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
+
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
@@ -41,11 +46,14 @@ public class Robot extends TimedRobot {
     // Enable camera capture
     CameraServer.startAutomaticCapture();
     // Get the alliance color
-    @SuppressWarnings("unused")
-    Optional<Alliance> ally = DriverStation.getAlliance();
-    // Calibrate and get the heading from the gyro
-    gyro.calibrate();
+    //Optional<Alliance> ally = DriverStation.getAlliance();
+    // DoubleSolenoid corresponds to a double solenoid.
+    // In this case, it's connected to channels 1 and 2 of a PH with the default CAN ID.
+    // Compressor connected to a PH with a default CAN ID (1)
+    RobotContainer.doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
+    ph.enableCompressorAnalog(100, 120);
   }
+
 
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
@@ -61,6 +69,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    System.out.println(ph.getCompressor());
     //create a new gyro object to constantly update the heading
     //double heading = gyro.getAngle();
     // Output the heading to the Dashboard

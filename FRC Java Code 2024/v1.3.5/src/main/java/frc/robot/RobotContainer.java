@@ -5,7 +5,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.LauncherConstants;
@@ -13,6 +15,10 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.LaunchNote;
 import frc.robot.commands.PrepareLaunch;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 //import frc.robot.subsystems.PWMDrivetrain;
 //import frc.robot.subsystems.PWMLauncher;
 
@@ -33,6 +39,8 @@ public class RobotContainer {
   private final CANDrivetrain m_drivetrain = new CANDrivetrain();
   //private final PWMLauncher m_launcher = new PWMLauncher();
   private final CANLauncher m_launcher = new CANLauncher();
+
+  public static DoubleSolenoid doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
 
   /*The gamepad provided in the KOP shows up like an XBox controller if the mode switch is set to X mode using the
    * switch on the top.*/
@@ -79,6 +87,10 @@ public class RobotContainer {
     // Set up a binding to run the intake command while the operator is pressing and holding the
     // left Bumper
     m_operatorController.leftBumper().whileTrue(m_launcher.getIntakeCommand());
+
+    Command solenoidToggle = new RunCommand(() -> doubleSolenoid.toggle());
+    m_operatorController.y().whenPressed();
+    
 
     //Establishes command in the file
     Command turnCounterClockwiseCommand = new RunCommand(() -> m_drivetrain.turnCounterClockwise(), m_drivetrain);
