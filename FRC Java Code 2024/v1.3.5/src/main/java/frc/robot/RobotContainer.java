@@ -5,7 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -15,7 +15,6 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.LaunchNote;
 import frc.robot.commands.PrepareLaunch;
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
@@ -40,20 +39,19 @@ public class RobotContainer {
   //private final PWMLauncher m_launcher = new PWMLauncher();
   private final CANLauncher m_launcher = new CANLauncher();
 
-  public static DoubleSolenoid doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
-
   /*The gamepad provided in the KOP shows up like an XBox controller if the mode switch is set to X mode using the
    * switch on the top.*/
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
   private final CommandXboxController m_operatorController =
       new CommandXboxController(OperatorConstants.kOperatorControllerPort);
-  
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    
     configureBindings();
+    Robot.ph.enableCompressorAnalog(100, 120);
+    Robot.doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
 
   /**
@@ -76,9 +74,7 @@ public class RobotContainer {
 
     /*Create an inline sequence to run when the operator presses and holds the A (green) button. Run the PrepareLaunch
      * command for 1 seconds and then run the LaunchNote command */
-    m_operatorController
-        .a()
-        .whileTrue(
+    m_operatorController.x().whileTrue(
             new PrepareLaunch(m_launcher)
                 .withTimeout(LauncherConstants.kLauncherDelay)
                 .andThen(new LaunchNote(m_launcher))
@@ -88,9 +84,10 @@ public class RobotContainer {
     // left Bumper
     m_operatorController.leftBumper().whileTrue(m_launcher.getIntakeCommand());
 
-    Command solenoidToggle = new RunCommand(() -> doubleSolenoid.toggle());
-    m_operatorController.y().whenPressed();
-    
+    Command raiseArmsCommand = new RunCommand(() -> Robot.doubleSolenoid.set(DoubleSolenoid.Value.kReverse));
+    Command lowerArmsCommand = new RunCommand(() -> Robot.doubleSolenoid.set(DoubleSolenoid.Value.kForward));
+    m_operatorController.y().whileTrue(raiseArmsCommand);
+    m_operatorController.a().whileTrue(lowerArmsCommand);
 
     //Establishes command in the file
     Command turnCounterClockwiseCommand = new RunCommand(() -> m_drivetrain.turnCounterClockwise(), m_drivetrain);
@@ -105,6 +102,7 @@ public class RobotContainer {
     xButton.whileTrue(turnCounterClockwiseCommand);
     // Run the turnClockwiseCommand while the 'b' button is being pressed
     bButton.whileTrue(turnClockwiseCommand);
+
   }
 
   /**
@@ -114,6 +112,14 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_drivetrain);
+    // return Autos.Auto1(m_drivetrain);
+    return Commands.sequence(
+      new PrepareLaunch(m_launcher)
+                .withTimeout(LauncherConstants.kLauncherDelay)
+                .andThen(new LaunchNote(m_launcher)).withTimeout(1.5)
+                .andThen(() -> m_launcher.stop()),
+                Commands.waitSeconds(12),
+                Commands.run(() -> m_drivetrain.arcade(-0.75, 0.5), m_drivetrain)
+      );
   }
 }

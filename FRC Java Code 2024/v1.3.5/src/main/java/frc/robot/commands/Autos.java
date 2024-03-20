@@ -9,10 +9,12 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 //import frc.robot.subsystems.PWMDrivetrain;
 
 import frc.robot.subsystems.CANDrivetrain;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 public final class Autos {
   /** Example static factory for an autonomous command. */
-  public static Command exampleAuto(CANDrivetrain drivetrain) {
+  public static Command Auto1(CANDrivetrain drivetrain) {
     /**
      * RunCommand is a helper class that creates a command from a single method, in this case we
      * pass it the arcadeDrive method to drive straight back at half power. We modify that command
@@ -23,8 +25,8 @@ public final class Autos {
         .withTimeout(1)
         .andThen(new RunCommand(() -> drivetrain.arcadeDrive(0, 0), drivetrain));
     */
-    return new RunCommand(() -> drivetrain.tankDrive(-.5, -.5), drivetrain)
-        .withTimeout(1)
+    return new RunCommand(() -> drivetrain.tankDrive(.5, .5), drivetrain)
+        .withTimeout(3)
         .andThen(new RunCommand(() -> drivetrain.tankDrive(0, 0), drivetrain));
   }
 

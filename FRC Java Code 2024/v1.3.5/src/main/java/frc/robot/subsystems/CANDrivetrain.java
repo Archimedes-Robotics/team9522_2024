@@ -75,6 +75,17 @@ public class CANDrivetrain extends SubsystemBase {
   
   }
 
+    public void arcade(double speed, final double curve) {
+    //m_drivetrain.tankDrive(speedL, speedR);
+    //Potential curve formulas?
+    // output = a1*X^3 + (1-a1)*X
+    // output = min(max/min)^joystick value
+    //m_drivetrain.tankDrive(Math.pow(speedL, 3), Math.pow(speedR, 3));
+    //m_drivetrain.tankDrive(Math.pow(0.3*(1/0.3), speedL), Math.pow(0.3*(1/0.3), speedR));
+    m_drivetrain.arcadeDrive(speed, curve);
+  
+  }
+
 //Turns robot counterclockwise
   public void turnCounterClockwise() {
     double speedL = -0.75;  //Adjust as we need
