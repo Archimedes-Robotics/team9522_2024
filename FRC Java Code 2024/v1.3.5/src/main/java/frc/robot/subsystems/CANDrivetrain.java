@@ -56,14 +56,12 @@ public class CANDrivetrain extends SubsystemBase {
     // the rears set to follow the fronts
     m_drivetrain = new DifferentialDrive(leftFront, rightFront);
   }
-
   /*Method to control the drivetrain using arcade drive. Arcade drive takes a speed in the X (forward/back) direction
    * and a rotation about the Z (turning the robot about it's center) and uses these to control the drivetrain motors */
   /*public void arcadeDrive(double speed, double rotation) {
     //m_drivetrain.arcadeDrive(speed, rotation);
   }
   */
-
   public void tankDrive(double speedL, double speedR) {
     //m_drivetrain.tankDrive(speedL, speedR);
     //Potential curve formulas?
@@ -74,36 +72,31 @@ public class CANDrivetrain extends SubsystemBase {
     m_drivetrain.tankDrive(speedL, speedR);
   
   }
-
-    public void arcade(double speed, final double curve) {
+  public void arcade(double speed, final double curve) {
     //m_drivetrain.tankDrive(speedL, speedR);
-    //Potential curve formulas?
-    // output = a1*X^3 + (1-a1)*X
+   //Potential curve formulas?
+   // output = a1*X^3 + (1-a1)*X
     // output = min(max/min)^joystick value
     //m_drivetrain.tankDrive(Math.pow(speedL, 3), Math.pow(speedR, 3));
     //m_drivetrain.tankDrive(Math.pow(0.3*(1/0.3), speedL), Math.pow(0.3*(1/0.3), speedR));
     m_drivetrain.arcadeDrive(speed, curve);
-  
   }
-
-//Turns robot counterclockwise
+  //Turns robot counterclockwise
   public void turnCounterClockwise() {
     double speedL = -0.75;  //Adjust as we need
     double speedR = 0.75;  //Adjust as we need
     m_drivetrain.tankDrive(speedL, speedR);
-}
-
-//Turns robot clockwise
- public void turnClockwise() {
-    double speedL = 0.5; //Adjust as we need
-    double speedR = -0.5;  //Adjust as we need
+  }
+  //Turns robot clockwise
+  public void turnClockwise() {
+    double speedL = 0.75; //Adjust as we need
+    double speedR = -0.75;  //Adjust as we need
     m_drivetrain.tankDrive(speedL, speedR);
-}
-  
-
+  }
   @Override
   public void periodic() {
     /*This method will be called once per scheduler run. It can be used for running tasks we know we want to update each
      * loop such as processing sensor data. Our drivetrain is simple so we don't have anything to put here */
   }
+  
 }
