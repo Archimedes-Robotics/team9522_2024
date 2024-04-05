@@ -5,36 +5,37 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 //import frc.robot.subsystems.PWMDrivetrain;
 
 import frc.robot.subsystems.CANDrivetrain;
+import frc.robot.Constants.LauncherConstants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.CANLauncher;
 
 public final class Autos {
-  /** Example static factory for an autonomous command. */
   public static Command TaxiStraight(CANDrivetrain drivetrain) {
-    return new RunCommand(() -> drivetrain.tankDrive(0.5, 0.5), drivetrain)
-        .withTimeout(1.5)
-        .andThen(new RunCommand(() -> drivetrain.tankDrive(0, 0), drivetrain));
+    return new RunCommand(() -> {drivetrain.tankDrive(1, 1);}, drivetrain)
+      .withTimeout(1.25);
   }
 
-  //public static Command TaxiShoot(CANDrivetrain drivetrain) {
-    //return new PrepareLaunch(m_launcher)
-    //             .withTimeout(LauncherConstants.kLauncherDelay)
-    //             .andThen(new LaunchNote(m_launcher)).withTimeout(1)
-    //             .andThen(() -> m_launcher.stop()),
-    //             Commands.waitSeconds(10)
-    //             //Commands.run(() -> m_drivetrain.tankDrive(-0.75, -0.75), m_drivetrain).withTimeout(1.25)
-    //             //Blue Source or Red Amp Commands.run(() -> m_drivetrain.arcade(-0.65, 0.45), m_drivetrain).withTimeout(1.5)
-    //             //Blue Amp or Red Source 
-    //             //Commands.run(() -> m_drivetrain.arcade(-0.65, -0.45), m_drivetrain).withTimeout(1.5)
-    //             //.andThen(() -> m_drivetrain.arcade(0, 0), m_drivetrain)
-    //   );
-  //}
-
+  public static Command ShootnWait(CANLauncher m_launcher) {
+    return Commands.sequence(
+       new PrepareLaunch(m_launcher)
+                 .withTimeout(LauncherConstants.kLauncherDelay)
+                 .andThen(new LaunchNote(m_launcher)).withTimeout(1)
+                 .andThen(() -> m_launcher.stop()),
+                 Commands.waitSeconds(10)
+       );
+  }
   private Autos() {
     throw new UnsupportedOperationException("This is a utility class!");
   }
 }
+
+//Blue Source or Red Amp Commands.run(() -> m_drivetrain.arcade(-0.65, 0.45), m_drivetrain).withTimeout(1.5)
+                 //Blue Amp or Red Source 
+                 //Commands.run(() -> m_drivetrain.arcade(-0.65, -0.45), m_drivetrain).withTimeout(1.5)
+                 //.andThen(() -> m_drivetrain.arcade(0, 0), m_drivetrain)

@@ -110,8 +110,10 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    return Autos.TaxiStraight(m_drivetrain);
-    //return Autos.TaxiShoot(m_drivetrain);
+  public Command getAutonomousCommand() { 
+    //return Autos.ShootnWait(m_launcher);
+    //return Autos.TaxiStraight(m_drivetrain);
+    // return Commands.run(() -> m_drivetrain.arcade(1, 0.35), m_drivetrain).withTimeout(1.5)
+    //   .andThen(() -> m_drivetrain.arcade(0, 0), m_drivetrain);
   }
 }
