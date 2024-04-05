@@ -25,8 +25,8 @@ public final class Autos {
         .withTimeout(1)
         .andThen(new RunCommand(() -> drivetrain.arcadeDrive(0, 0), drivetrain));
     */
-    return new RunCommand(() -> drivetrain.tankDrive(.5, .5), drivetrain)
-        .withTimeout(3)
+    return new RunCommand(() -> drivetrain.tankDrive(1, 1), drivetrain)
+        .withTimeout(1.5)
         .andThen(new RunCommand(() -> drivetrain.tankDrive(0, 0), drivetrain));
   }
 

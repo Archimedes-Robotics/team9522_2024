@@ -116,10 +116,14 @@ public class RobotContainer {
     return Commands.sequence(
       new PrepareLaunch(m_launcher)
                 .withTimeout(LauncherConstants.kLauncherDelay)
-                .andThen(new LaunchNote(m_launcher)).withTimeout(1.5)
+                .andThen(new LaunchNote(m_launcher)).withTimeout(1)
                 .andThen(() -> m_launcher.stop()),
-                Commands.waitSeconds(12),
-                Commands.run(() -> m_drivetrain.arcade(-0.75, 0.5), m_drivetrain)
+                Commands.waitSeconds(10)
+                //Commands.run(() -> m_drivetrain.tankDrive(-0.75, -0.75), m_drivetrain).withTimeout(1.25)
+                //Blue Source or Red Amp Commands.run(() -> m_drivetrain.arcade(-0.65, 0.45), m_drivetrain).withTimeout(1.5)
+                //Blue Amp or Red Source 
+                //Commands.run(() -> m_drivetrain.arcade(-0.65, -0.45), m_drivetrain).withTimeout(1.5)
+                //.andThen(() -> m_drivetrain.arcade(0, 0), m_drivetrain)
       );
   }
 }
