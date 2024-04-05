@@ -14,21 +14,25 @@ import frc.robot.RobotContainer;
 
 public final class Autos {
   /** Example static factory for an autonomous command. */
-  public static Command Auto1(CANDrivetrain drivetrain) {
-    /**
-     * RunCommand is a helper class that creates a command from a single method, in this case we
-     * pass it the arcadeDrive method to drive straight back at half power. We modify that command
-     * with the .withTimeout(1) decorator to timeout after 1 second, and use the .andThen decorator
-     * to stop the drivetrain after the first command times out
-     */
-    /*return new RunCommand(() -> drivetrain.arcadeDrive(-.5, 0), drivetrain)
-        .withTimeout(1)
-        .andThen(new RunCommand(() -> drivetrain.arcadeDrive(0, 0), drivetrain));
-    */
-    return new RunCommand(() -> drivetrain.tankDrive(1, 1), drivetrain)
+  public static Command TaxiStraight(CANDrivetrain drivetrain) {
+    return new RunCommand(() -> drivetrain.tankDrive(0.5, 0.5), drivetrain)
         .withTimeout(1.5)
         .andThen(new RunCommand(() -> drivetrain.tankDrive(0, 0), drivetrain));
   }
+
+  //public static Command TaxiShoot(CANDrivetrain drivetrain) {
+    //return new PrepareLaunch(m_launcher)
+    //             .withTimeout(LauncherConstants.kLauncherDelay)
+    //             .andThen(new LaunchNote(m_launcher)).withTimeout(1)
+    //             .andThen(() -> m_launcher.stop()),
+    //             Commands.waitSeconds(10)
+    //             //Commands.run(() -> m_drivetrain.tankDrive(-0.75, -0.75), m_drivetrain).withTimeout(1.25)
+    //             //Blue Source or Red Amp Commands.run(() -> m_drivetrain.arcade(-0.65, 0.45), m_drivetrain).withTimeout(1.5)
+    //             //Blue Amp or Red Source 
+    //             //Commands.run(() -> m_drivetrain.arcade(-0.65, -0.45), m_drivetrain).withTimeout(1.5)
+    //             //.andThen(() -> m_drivetrain.arcade(0, 0), m_drivetrain)
+    //   );
+  //}
 
   private Autos() {
     throw new UnsupportedOperationException("This is a utility class!");

@@ -111,19 +111,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    // return Autos.Auto1(m_drivetrain);
-    return Commands.sequence(
-      new PrepareLaunch(m_launcher)
-                .withTimeout(LauncherConstants.kLauncherDelay)
-                .andThen(new LaunchNote(m_launcher)).withTimeout(1)
-                .andThen(() -> m_launcher.stop()),
-                Commands.waitSeconds(10)
-                //Commands.run(() -> m_drivetrain.tankDrive(-0.75, -0.75), m_drivetrain).withTimeout(1.25)
-                //Blue Source or Red Amp Commands.run(() -> m_drivetrain.arcade(-0.65, 0.45), m_drivetrain).withTimeout(1.5)
-                //Blue Amp or Red Source 
-                //Commands.run(() -> m_drivetrain.arcade(-0.65, -0.45), m_drivetrain).withTimeout(1.5)
-                //.andThen(() -> m_drivetrain.arcade(0, 0), m_drivetrain)
-      );
+    return Autos.TaxiStraight(m_drivetrain);
+    //return Autos.TaxiShoot(m_drivetrain);
   }
 }
