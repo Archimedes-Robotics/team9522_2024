@@ -16,18 +16,25 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.CANLauncher;
 
 public final class Autos {
+  public static Command TaxiCurve(CANDrivetrain drivetrain) {
+    return new RunCommand(() -> {drivetrain.tankDrive(-0.6, -0.8);}, drivetrain)
+      .withTimeout(3)
+      .andThen(() -> drivetrain.tankDrive(0, 0));
+  }
+
   public static Command TaxiStraight(CANDrivetrain drivetrain) {
-    return new RunCommand(() -> {drivetrain.tankDrive(1, 1);}, drivetrain)
-      .withTimeout(1.25);
+    return new RunCommand(() -> {drivetrain.tankDrive(0.75, 0.75);}, drivetrain)
+      .withTimeout(1.5)
+      .andThen(() -> drivetrain.tankDrive(0, 0));
   }
 
   public static Command ShootnWait(CANLauncher m_launcher) {
     return Commands.sequence(
        new PrepareLaunch(m_launcher)
                  .withTimeout(LauncherConstants.kLauncherDelay)
-                 .andThen(new LaunchNote(m_launcher)).withTimeout(1)
+                 .andThen(new LaunchNote(m_launcher)).withTimeout(2)
                  .andThen(() -> m_launcher.stop()),
-                 Commands.waitSeconds(10)
+                 Commands.waitSeconds(9.5)
        );
   }
   private Autos() {
