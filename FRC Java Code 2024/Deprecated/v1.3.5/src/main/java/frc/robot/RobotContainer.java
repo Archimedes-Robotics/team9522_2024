@@ -31,6 +31,8 @@ import frc.robot.subsystems.CANLauncher;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
+
+@SuppressWarnings("unused")
 public class RobotContainer {
   //private static final double turnSpeed = 0.5; // Adjust this value as needed
   // The robot's subsystems are defined here.
