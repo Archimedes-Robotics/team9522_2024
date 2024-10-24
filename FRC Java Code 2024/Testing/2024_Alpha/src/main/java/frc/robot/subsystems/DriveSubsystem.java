@@ -9,8 +9,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
-import com.pathplanner.lib.util.PathPlannerLogging;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -123,6 +121,7 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return The pose.
    */
+
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
