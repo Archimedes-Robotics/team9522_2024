@@ -19,7 +19,6 @@ import frc.robot.subsystems.DriveSubsystem;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-  DriveSubsystem driveSubsystem = m_robotContainer.getDriveSubsystem();
 
   private final Field2d m_field = new Field2d();
 
@@ -38,6 +37,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
+    DriveSubsystem driveSubsystem = m_robotContainer.getDriveSubsystem();
     double robotVelocity = driveSubsystem.getRobotVelocity();
     SmartDashboard.putNumber("Velocity (m/s)", robotVelocity);
 
