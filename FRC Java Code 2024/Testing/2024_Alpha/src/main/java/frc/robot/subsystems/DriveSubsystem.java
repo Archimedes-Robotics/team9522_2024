@@ -27,6 +27,10 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.RelativeEncoder;
+import static java.lang.Math.sqrt;
+import static java.lang.Math.pow;
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
