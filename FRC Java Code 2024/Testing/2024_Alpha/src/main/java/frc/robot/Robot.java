@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -63,6 +64,8 @@ public class Robot extends TimedRobot {
         DriveSubsystem driveSubsystem = m_robotContainer.getDriveSubsystem();
         double robotVelocity = driveSubsystem.getRobotVelocity();
         SmartDashboard.putNumber("Robot Velocity", robotVelocity);
+        SmartDashboard.putNumber("Match Time", Timer.getMatchTime());
+        m_field.setRobotPose(driveSubsystem.getPose());
     }
 
     private Sendable createSwerveDriveSendable(DriveSubsystem driveSubsystem) {
