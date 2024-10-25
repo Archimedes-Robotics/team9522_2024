@@ -242,6 +242,11 @@ public class DriveSubsystem extends SubsystemBase {
     return DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
   }
 
+  public double getRobotVelocity() {
+    ChassisSpeeds speeds = getRobotRelativeSpeeds();
+    return Math.sqrt(speeds.vxMetersPerSecond * speeds.vxMetersPerSecond + speeds.vyMetersPerSecond * speeds.vyMetersPerSecond);
+  }
+
   private SwerveModuleState[] getModuleStates() {
     return new SwerveModuleState[] {
             m_frontLeft.getState(),

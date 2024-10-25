@@ -5,20 +5,20 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.DriveSubsystem; 
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
   private RobotContainer m_robotContainer;
 
   private final Field2d m_field = new Field2d();
-  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
   @Override
   public void robotInit() {
@@ -32,8 +32,14 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    
-    m_field.setRobotPose(m_driveSubsystem.getPose());
+
+    DriveSubsystem driveSubsystem = m_robotContainer.getDriveSubsystem();
+    double robotVelocity = driveSubsystem.getRobotVelocity();
+    SmartDashboard.putNumber("Velocity (m/s)", robotVelocity);
+
+    SmartDashboard.putNumber("Match Time", Timer.getMatchTime());
+
+    m_field.setRobotPose(driveSubsystem.getPose());
   }
 
   @Override
