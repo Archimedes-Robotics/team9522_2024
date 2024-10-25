@@ -27,10 +27,6 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.RelativeEncoder;
-import static java.lang.Math.sqrt;
-import static java.lang.Math.pow;
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
@@ -77,6 +73,21 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearRight.getPosition()
       });
 
+  public double getModuleVelocity(String moduleName) {
+    switch (moduleName) {
+      case "frontLeft":
+        return m_frontLeft.getState().speedMetersPerSecond;
+      case "frontRight":
+        return m_frontRight.getState().speedMetersPerSecond;
+      case "rearLeft":
+        return m_rearLeft.getState().speedMetersPerSecond;
+      case "rearRight":
+        return m_rearRight.getState().speedMetersPerSecond;
+      default:
+        throw new IllegalArgumentException("Invalid module name: " + moduleName);
+    }
+  }
+  
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     AutoBuilder.configureHolonomic(
@@ -251,7 +262,7 @@ public class DriveSubsystem extends SubsystemBase {
     return Math.sqrt(speeds.vxMetersPerSecond * speeds.vxMetersPerSecond + speeds.vyMetersPerSecond * speeds.vyMetersPerSecond);
   }
 
-  private SwerveModuleState[] getModuleStates() {
+  public SwerveModuleState[] getModuleStates() {
     return new SwerveModuleState[] {
             m_frontLeft.getState(),
             m_frontRight.getState(),
