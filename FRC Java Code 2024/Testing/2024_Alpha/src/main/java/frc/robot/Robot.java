@@ -2,9 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -19,9 +19,6 @@ public class Robot extends TimedRobot {
     private final Field2d m_field = new Field2d();
     private final PowerDistribution m_pdh = new PowerDistribution(1, ModuleType.kRev);
 
-    // Variable to hold the max speed value
-    private double maxSpeedMetersPerSecond = Constants.DriveConstants.kMaxSpeedMetersPerSecond;
-
     @Override
     public void robotInit() {
         m_robotContainer = new RobotContainer();
@@ -32,9 +29,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
+        CommandScheduler.getInstance().run();
         updateSmartDashboard();
-        // Update the max speed value from SmartDashboard
-        maxSpeedMetersPerSecond = SmartDashboard.getNumber("Max Speed Meters Per Second", maxSpeedMetersPerSecond);
     }
 
     @Override
@@ -46,13 +42,29 @@ public class Robot extends TimedRobot {
       }
     }
 
-    private void setupSmartDashboard() {
+    @Override
+    public void autonomousPeriodic() {}
+
+    @Override
+    public void autonomousExit() {}
+
+    @Override
+    public void teleopInit() {
+      if (m_autonomousCommand != null) {
+        m_autonomousCommand.cancel();
+      }
+    }
+
+    @Override
+    public void teleopPeriodic() {}
+
+    @Override
+    public void teleopExit() {}
+
+    public void setupSmartDashboard() {
         DriveSubsystem driveSubsystem = m_robotContainer.getDriveSubsystem();
-        XboxController m_driverController = m_robotContainer.getDriverController();
-        SmartDashboard.putBoolean("Controller Status", m_driverController.isConnected());
         SmartDashboard.putData("Swerve Drive", createSwerveDriveSendable(driveSubsystem));
-        // Initialize the max speed value on the SmartDashboard
-        SmartDashboard.putNumber("Max Speed Meters Per Second", maxSpeedMetersPerSecond);
+        SmartDashboard.putData("PDH", m_pdh);
     }
 
     private void updateSmartDashboard() {
